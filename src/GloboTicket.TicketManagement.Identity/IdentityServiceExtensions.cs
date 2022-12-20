@@ -20,7 +20,7 @@ namespace GloboTicket.TicketManagement.Identity
         {
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
-            services.AddDbContext<GloboTicketIdentityDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("GloboTicketIdentityConnectionString"),
+            services.AddDbContext<GloboTicketIdentityDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("TicketIdentityConnectionString"),
                 b => b.MigrationsAssembly(typeof(GloboTicketIdentityDbContext).Assembly.FullName)));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()

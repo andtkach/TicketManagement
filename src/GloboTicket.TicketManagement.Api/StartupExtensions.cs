@@ -1,4 +1,5 @@
-﻿using GloboTicket.TicketManagement.Api.Middleware;
+﻿using CsvHelper;
+using GloboTicket.TicketManagement.Api.Middleware;
 using GloboTicket.TicketManagement.Api.Services;
 using GloboTicket.TicketManagement.Api.Utility;
 using GloboTicket.TicketManagement.Application;
@@ -7,6 +8,8 @@ using GloboTicket.TicketManagement.Identity;
 using GloboTicket.TicketManagement.Infrastructure;
 using GloboTicket.TicketManagement.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 //using Serilog;
 
@@ -127,7 +130,14 @@ namespace GloboTicket.TicketManagement.Api
             }
             catch (Exception ex)
             {
-                var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
+                ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+                {
+                    builder.AddConsole();
+                    builder.AddDebug();
+                });
+                
+                //var logger = scope.ServiceProvider.GetRequiredService<ILogger>();
+                var logger = loggerFactory.CreateLogger<WebApplication>();
                 logger.LogError(ex, "An error occurred while migrating the database.");
             }
         }
